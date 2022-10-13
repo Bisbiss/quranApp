@@ -2,4 +2,4 @@
 
 Aplikasi Quran Mobile
 
-Aplikasi ini dibuat dengan flutter dan bantuan dari API https://alquran.cloud 
+Aplikasi ini dibuat dengan flutter dan bantuan dari API https://equran.id/apidev 
