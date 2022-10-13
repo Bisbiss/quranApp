@@ -38,7 +38,10 @@ class _homePageState extends State<homePage> {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Colors.white,
-        appBar: AppBar(title: Text("Al-Quran"), backgroundColor: Colors.teal),
+        appBar: AppBar(
+          title: Text("Al-Quran"),
+          backgroundColor: Colors.teal,
+        ),
         body: RefreshIndicator(
           onRefresh: _getRefreshData,
           child: data == null
