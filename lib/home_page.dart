@@ -1,7 +1,9 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:quranapp/detail_surah.dart';
 
 class homePage extends StatefulWidget {
   const homePage({super.key});
@@ -36,81 +38,37 @@ class _homePageState extends State<homePage> {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Colors.white,
-        appBar: AppBar(
-          backgroundColor: Colors.white,
-          leading: Icon(
-            Icons.dashboard,
-            color: Colors.teal,
-          ),
-        ),
-        body:
-            // Column(
-            // children: [
-            //   Container(
-            //     width: double.infinity,
-            //     child: Padding(
-            //       padding: EdgeInsets.all(13), //apply padding to all four sides
-            //       child: Text("Assalamualaikum...",
-            //           style: TextStyle(fontSize: 20, color: Colors.grey)),
-            //     ),
-            //   ),
-            //   Container(
-            //     width: double.infinity,
-            //     child: Padding(
-            //       padding: EdgeInsets.only(
-            //           left: 15, bottom: 15), //apply padding to all four sides
-            //       child: Text("Bisri Mustofa,",
-            //           style: TextStyle(
-            //               fontSize: 25,
-            //               color: Colors.teal,
-            //               fontWeight: FontWeight.bold)),
-            //     ),
-            //   ),
-            RefreshIndicator(
+        appBar: AppBar(title: Text("Al-Quran"), backgroundColor: Colors.teal),
+        body: RefreshIndicator(
           onRefresh: _getRefreshData,
           child: data == null
               ? Center(child: CircularProgressIndicator())
               : ListView.builder(
+                  shrinkWrap: true,
                   itemCount: data == null ? 0 : data!.length,
                   itemBuilder: (BuildContext context, int index) {
-                    return Container(
-                      height: double.maxFinite,
-                      padding: EdgeInsets.all(5.0),
-                      child: Column(
-                        children: [
-                          GestureDetector(
-                            onTap: () {
-                              print(data![index]["nomor"]);
-                            },
-                            child: Padding(
-                              padding: EdgeInsets.all(16.0),
-                              child: Row(
-                                children: [
-                                  Column(
-                                    children: [
-                                      Text(
-                                        data![index]["nama_latin"],
-                                        style: TextStyle(
-                                          fontSize: 20,
-                                          color: Color.fromARGB(
-                                              255, 255, 255, 255),
-                                          backgroundColor: Colors.red,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          Divider()
-                        ],
-                      ),
+                    return Card(
+                      child: ListTile(
+                          onTap: (() {
+                            Get.to(detailSurah(), arguments: [
+                              data![index]["nomor"],
+                              data![index]["nama_latin"]
+                            ]);
+                            print(data![index]['nomor']);
+                          }),
+                          title: Text(data![index]["nama_latin"],
+                              style: TextStyle(
+                                  fontSize: 20, fontWeight: FontWeight.bold)),
+                          subtitle: Text(data![index]["arti"]),
+                          leading: CircleAvatar(
+                            child: Text(
+                                data![index]["nomor"]
+                                    .toString(), // ambil karakter pertama text
+                                style: TextStyle(fontSize: 20)),
+                          )),
                     );
-                  }),
-        )
-        // ],
-        // ),
-        );
+                  },
+                ),
+        ));
   }
 }
